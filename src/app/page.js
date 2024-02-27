@@ -7,6 +7,8 @@ import FilterDropDown from "@/components/FilterDropDown";
 
 export default function Home() {
 
+  const [showTaskForm, setShowTaskForm] = useState(false);
+
   const [tasks, setTasks] = useState([
     { id: 1, title: "Task 1", description: "Description 1", status: "To Do" },
     { id: 2, title: "Task 2", description: "Description 2", status: "To Do" },
@@ -18,6 +20,11 @@ export default function Home() {
     { id: 8, title: "Task 8", description: "Description 8", status: "To Do" },
     { id: 9, title: "Task 9", description: "Description 9", status: "To Do" },
     { id: 10, title: "Task 10", description: "Description 10", status: "To Do" },
+    { id: 11, title: "Task 11", description: "Description 11", status: "To Do" },
+    { id: 12, title: "Task 12", description: "Description 12", status: "To Do" },
+    { id: 13, title: "Task 13", description: "Description 13", status: "To Do" },
+    { id: 14, title: "Task 14", description: "Description 14", status: "To Do" },
+    { id: 15, title: "Task 15", description: "Description 15", status: "To Do" },
   ]);
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [filter, setFilter] = useState('');
@@ -26,6 +33,7 @@ export default function Home() {
     newTask.id = Date.now();
     newTask.status = 'To Do';
     setTasks([...tasks, newTask]);
+    setShowTaskForm(false);
   };
 
   const updateStatus = (taskId) => {
@@ -47,6 +55,10 @@ export default function Home() {
     } else {
       setFilteredTasks(tasks.filter((task) => task.status === status));
     }
+  };
+
+  const toggleTaskForm = () => {
+    setShowTaskForm(!showTaskForm);
   };
 
   return (
@@ -80,18 +92,28 @@ export default function Home() {
 
           <div className="flex flex-col left-10 space-y-4">
 
+          {showTaskForm ? (
             <TaskForm addTask={addTask} />
+          ) : (
+            <>
+              <FilterDropDown
+                statuses={['To Do', 'In Progress', 'Done']}
+                filterTasks={filterTasks}
+              />
+              <TaskList
+                tasks={filter ? filteredTasks : tasks}
+                updateStatus={updateStatus}
+                deleteTask={deleteTask}
+              />
+            </>
+          )}
 
-            <FilterDropDown
-              statuses={['To Do', 'In Progress', 'Done']}
-              filterTasks={filterTasks}
-            />
-            
-            <TaskList
-              tasks={filter ? filteredTasks : tasks}
-              updateStatus={updateStatus}
-              deleteTask={deleteTask}
-            />
+          <button
+            onClick={toggleTaskForm}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            {showTaskForm ? 'Show task list' : 'Add a new task'}
+          </button>
         </div>
       </div>
 
