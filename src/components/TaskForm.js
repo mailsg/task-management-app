@@ -24,6 +24,7 @@ const TaskForm = ({ addTask }) => {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                    maxLength={12}
                 />
             </div>
 
@@ -36,6 +37,7 @@ const TaskForm = ({ addTask }) => {
                     onChange={(e) => setDescription(e.target.value)}
                     className="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                     rows="3"
+                    maxLength={64}
                 ></textarea>
             </div>
 

@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from "react";
 
-const TaskList = ({ tasks, updateStatus, deleteTask }) => {
+const TaskList = ({ tasks, updateTaskStatus, deleteTask }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
-  const tasksPerPage = 5;
+  const tasksPerPage = 4;
   const indexOfLastTask = currentPage * tasksPerPage;
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
   const currentTasks = tasks.slice(indexOfFirstTask, indexOfLastTask);
@@ -14,6 +14,20 @@ const TaskList = ({ tasks, updateStatus, deleteTask }) => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+  const [selectedStatus, setSelectedStatus] = useState('');
+
+  const handleStatusChange = (event, taskId) => {
+    // setSelectedStatus(event.target.value);
+    const updatedTasks = tasks.map((task) => 
+    task.id === taskId ? {...task, status: event.target.value } : task );
+    updateTaskStatus(updatedTasks);
+  };
+
+  const handleSaveStatus = (taskId) => {
+    updateTaskStatus(taskId, selectedStatus);
+    setSelectedStatus('');
+  }
 
   return (
     <div>
@@ -41,12 +55,31 @@ const TaskList = ({ tasks, updateStatus, deleteTask }) => {
                 <td className="px-6 py-4 whitespace-nowrap">{task.description}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{task.status}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                <button onClick={() => updateStatus(task.id)} className="mr-2 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                {/* <button onClick={() => updateStatus(task.id)} className="mr-2 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Update
-                </button>
+                </button> */}
+
+                <div className="flex items-center space-x-2">
+                  <select
+                    value={selectedStatus}
+                    onChange={(e) => handleStatusChange(e, task.id)}
+                    className="p-1 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                  >
+                    <option value="">Select Status</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Done">Done</option>
+                  </select>
+                  <button
+                    onClick={() => handleSaveStatus(task.id)}
+                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Save
+                  </button>
+
                 <button onClick={() => deleteTask(task.id)} className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                     Delete
                 </button>
+                </div>
                 </td>
             </tr>
             ))}

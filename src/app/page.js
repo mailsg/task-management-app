@@ -25,6 +25,7 @@ export default function Home() {
     { id: 13, title: "Task 13", description: "Description 13", status: "To Do" },
     { id: 14, title: "Task 14", description: "Description 14", status: "To Do" },
     { id: 15, title: "Task 15", description: "Description 15", status: "To Do" },
+    { id: 16, title: "Task 16", description: "Description 16", status: "To Do" },
   ]);
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [filter, setFilter] = useState('');
@@ -36,12 +37,16 @@ export default function Home() {
     setShowTaskForm(false);
   };
 
-  const updateStatus = (taskId) => {
-    setTasks(
-      tasks.map((task) =>
-        task.id === taskId ? { ...task, status: 'In Progress' } : task
-      )
-    );
+  // const updateStatus = (taskId) => {
+  //   setTasks(
+  //     tasks.map((task) =>
+  //       task.id === taskId ? { ...task, status: 'In Progress' } : task
+  //     )
+  //   );
+  // };
+
+  const updateTaskStatus = (updatedTasks) => {
+    setTasks(updatedTasks);
   };
 
   const deleteTask = (taskId) => {
@@ -100,11 +105,13 @@ export default function Home() {
                 statuses={['To Do', 'In Progress', 'Done']}
                 filterTasks={filterTasks}
               />
-              <TaskList
-                tasks={filter ? filteredTasks : tasks}
-                updateStatus={updateStatus}
-                deleteTask={deleteTask}
-              />
+              <div className="h-96 overflow-auto">
+                <TaskList
+                  tasks={filter ? filteredTasks : tasks}
+                  updateTaskStatus={updateTaskStatus}
+                  deleteTask={deleteTask}
+                />
+              </div>
             </>
           )}
 
