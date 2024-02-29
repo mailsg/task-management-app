@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Task = require('../models/Task');
 
-// Get all tasks - GET /api/tasks
+// Get all tasks - GET /api/tasks/
 router.get('/', async (req, res) => {
     try {
         const tasks = await Task.GetAllTasks();
@@ -31,7 +31,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Add a task - POST /api/tasks
+// Add a task - POST /api/tasks/
 router.post('/', async (req, res) => {
     const newTask = req.body;
     try {
