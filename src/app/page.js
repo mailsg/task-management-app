@@ -10,27 +10,6 @@ export default function Home() {
 
   const [showTaskForm, setShowTaskForm] = useState(false);
 
-  // const [filteredTasks, setFilteredTasks] = useState([]);
-  // const [filter, setFilter] = useState('');
-
-  // const isLoading = useSelector((state) => state.tasks.isLoading);
-
-  // const addTask = (newTask) => {
-  //   newTask.id = Date.now();
-  //   newTask.status = 'To Do';
-  //   setTasks([...tasks, newTask]);
-  //   setShowTaskForm(false);
-  // };
-
-  // const filterTasks = (status) => {
-  //   setFilter(status);
-  //   if (!status) {
-  //     setFilteredTasks([]);
-  //   } else {
-  //     setFilteredTasks(tasks.filter((task) => task.status === status));
-  //   }
-  // };
-
   const toggleTaskForm = () => {
     setShowTaskForm(!showTaskForm);
   };
@@ -68,13 +47,12 @@ export default function Home() {
             <div className="flex flex-col left-10 space-y-4">
 
             {showTaskForm ? (
-              <TaskForm addTask={addTask} />
+              <TaskForm addTask={addTask}/>
             ) : (
               <>
-                <FilterDropDown
+                {/* <FilterDropDown
                   statuses={['To Do', 'In Progress', 'Done']}
-                  // filterTasks={filterTasks}
-                />
+                /> */}
                 <div className="h-96 overflow-auto">
                   <TaskList />
                 </div>

@@ -1,15 +1,16 @@
 import React from "react";
 
-const FilterDropDown = ({ statuses, filterTasks }) => {
+const FilterDropDown = ({ statuses, onFilterChange }) => {
+    const handleFilterChange = (e) => {
+        onFilterChange(e.target.value);
+    }
     return(
-        // <div className="">
-            <select onChange={(e) => filterTasks(e.target.value)}>
+            <select onChange={handleFilterChange}>
                 <option value=''>All</option>
                 {statuses.map((status) => (
                     <option key={status} value={status}>{status}</option>
                 ))}
             </select>
-        // </div>
     );
 };
 
