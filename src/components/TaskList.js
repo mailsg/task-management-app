@@ -31,12 +31,7 @@ const TaskList = () => {
   }, [ dispatch, forceRender]);
 
   useEffect(() => {
-    // if (selectedStatus) {
-    //     const filtered = tasks.filter(task => task.status === selectedStatus);
-    //     setFilteredTasks(filtered);
-    // } else {
         setFilteredTasks(tasks);
-    // }
 }, [tasks]);
 
   const handleStatusChange = (event, taskId) => {
@@ -60,7 +55,6 @@ const TaskList = () => {
   };
 
   const handleFilterChange = (status) => {
-    // setSelectedStatus(status);
     setSelectedStatus(status);
         if (status) {
             const filtered = tasks.filter(task => task.status === status);

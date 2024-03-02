@@ -50,9 +50,6 @@ export default function Home() {
               <TaskForm addTask={addTask}/>
             ) : (
               <>
-                {/* <FilterDropDown
-                  statuses={['To Do', 'In Progress', 'Done']}
-                /> */}
                 <div className="h-96 overflow-auto">
                   <TaskList />
                 </div>
