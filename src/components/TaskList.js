@@ -1,33 +1,53 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTasks, updateTask, deleteTask } from "@/redux/tasks/slice/tasksSlice";
 
-const TaskList = ({ tasks, updateTaskStatus, deleteTask }) => {
+const TaskList = () => {
 
+  const dispatch = useDispatch();
+  const tasks = useSelector((state) => state.tasks.tasks);
+  const isLoading = useSelector((state) => state.tasks.isLoading);
+
+  // For Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const tasksPerPage = 4;
   const indexOfLastTask = currentPage * tasksPerPage;
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
   const currentTasks = tasks.slice(indexOfFirstTask, indexOfLastTask);
-
   const totalPages = Math.ceil(tasks.length / tasksPerPage);
-
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState({});
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const [forceRender, setForceRender] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [ dispatch, forceRender]);
 
   const handleStatusChange = (event, taskId) => {
-    // setSelectedStatus(event.target.value);
-    const updatedTasks = tasks.map((task) => 
-    task.id === taskId ? {...task, status: event.target.value } : task );
-    updateTaskStatus(updatedTasks);
+    setSelectedStatus({ ...selectedStatus, [taskId]: event.target.value });
+    setSelectedTaskId(taskId);
   };
 
-  const handleSaveStatus = (taskId) => {
-    updateTaskStatus(taskId, selectedStatus);
-    setSelectedStatus('');
-  }
+  const handleSaveStatus = () => {
+    if (selectedTaskId && selectedStatus[selectedTaskId]) {
+      dispatch(updateTask({ taskId: selectedTaskId, updatedTask: { status: selectedStatus[selectedTaskId] } }))
+      .then(() => {
+        setSelectedStatus({ ...selectedStatus, [selectedTaskId]: null });
+        setSelectedTaskId(null);        
+      })
+      .then(() => setForceRender(prev => !prev));      
+    }
+  };  
+
+  const handleDeleteTask = (taskId) => {
+    console.log(taskId);
+    dispatch(deleteTask(taskId));
+  };
 
   return (
     <div>
@@ -50,36 +70,39 @@ const TaskList = ({ tasks, updateTaskStatus, deleteTask }) => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
             {currentTasks.map((task) => (
-            <tr key={task.id}>
+            <tr key={task._id}>
                 <td className="px-6 py-4 whitespace-nowrap">{task.title}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{task.description}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{task.status}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                {/* <button onClick={() => updateStatus(task.id)} className="mr-2 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Update
-                </button> */}
 
-                <div className="flex items-center space-x-2">
+                {/* <div className="flex items-center space-x-2"> */}
                   <select
-                    value={selectedStatus}
-                    onChange={(e) => handleStatusChange(e, task.id)}
+                    value={selectedStatus[task._id] || task.status}
+                    onChange={(e) => handleStatusChange(e, task._id)}
                     className="p-1 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                   >
-                    <option value="">Select Status</option>
+                    <option value="">To Do</option>
                     <option value="In Progress">In Progress</option>
                     <option value="Done">Done</option>
                   </select>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
                   <button
-                    onClick={() => handleSaveStatus(task.id)}
-                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    onClick={handleSaveStatus}
+                    disabled={!selectedStatus[task._id]}
+                    className={`${
+                      !selectedStatus[task._id] ? 'opacity-50 cursor-not-allowed' : ''
+                    } inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                   >
                     Save
                   </button>
 
-                <button onClick={() => deleteTask(task.id)} className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                <button 
+                  onClick={() => handleDeleteTask(task._id)} 
+                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                     Delete
                 </button>
-                </div>
+                {/* </div> */}
                 </td>
             </tr>
             ))}
