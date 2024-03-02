@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTasks, updateTask, deleteTask } from "@/redux/tasks/slice/tasksSlice";
+import FilterDropDown from "./FilterDropDown";
 
 const TaskList = () => {
 
@@ -23,10 +24,15 @@ const TaskList = () => {
   const [selectedStatus, setSelectedStatus] = useState({});
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [forceRender, setForceRender] = useState(false);
+  const [filteredTasks, setFilteredTasks] = useState([]);
 
   useEffect(() => {
     dispatch(fetchTasks());
   }, [ dispatch, forceRender]);
+
+  useEffect(() => {
+        setFilteredTasks(tasks);
+}, [tasks]);
 
   const handleStatusChange = (event, taskId) => {
     setSelectedStatus({ ...selectedStatus, [taskId]: event.target.value });
@@ -48,8 +54,19 @@ const TaskList = () => {
     dispatch(deleteTask({ taskId }));
   };
 
+  const handleFilterChange = (status) => {
+    setSelectedStatus(status);
+        if (status) {
+            const filtered = tasks.filter(task => task.status === status);
+            setFilteredTasks(filtered);
+        } else {
+            setFilteredTasks(tasks);
+        }
+  }
+
   return (
     <div>
+        <FilterDropDown onFilterChange={handleFilterChange} statuses={['To Do', 'In Progress', 'Done']}/>
         <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
             <tr>
@@ -68,8 +85,9 @@ const TaskList = () => {
             </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-            {currentTasks.map((task) => (
-            <tr key={task._id}>
+            {filteredTasks.slice(indexOfFirstTask, indexOfLastTask).map((task) => (
+              
+              <tr key={task._id}>
                 <td className="px-6 py-4 whitespace-nowrap">{task.title}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{task.description}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -103,8 +121,8 @@ const TaskList = () => {
                 </button>
                 {/* </div> */}
                 </td>
-            </tr>
-            ))}
+            </tr> 
+          ))}
         </tbody>
         </table>
         <nav className="flex justify-center mt-4">
