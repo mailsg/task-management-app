@@ -45,8 +45,7 @@ const TaskList = () => {
   };  
 
   const handleDeleteTask = (taskId) => {
-    console.log(taskId);
-    dispatch(deleteTask(taskId));
+    dispatch(deleteTask({ taskId }));
   };
 
   return (
