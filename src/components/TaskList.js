@@ -20,26 +20,32 @@ const TaskList = () => {
     setCurrentPage(pageNumber);
   };
 
-  const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState({});
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const [forceRender, setForceRender] = useState(false);
 
   useEffect(() => {
     dispatch(fetchTasks());
-  }, [dispatch]);
+  }, [ dispatch, forceRender]);
 
   const handleStatusChange = (event, taskId) => {
-    const updatedTask = tasks.find(task => task.id === taskId);
-    updatedTasks.status = event.target.value;
-    dispatch(updateTask({ taskId, updatedTask }));
+    setSelectedStatus({ ...selectedStatus, [taskId]: event.target.value });
+    setSelectedTaskId(taskId);
   };
 
-  const handleSaveStatus = (taskId) => {
-    const updatedTask = tasks.find(task => task.id === taskId);
-    updatedTask.status = selectedStatus;
-    dispatch(updateTask({ taskId, updatedTask }));
-    setSelectedStatus('');
-  }
+  const handleSaveStatus = () => {
+    if (selectedTaskId && selectedStatus[selectedTaskId]) {
+      dispatch(updateTask({ taskId: selectedTaskId, updatedTask: { status: selectedStatus[selectedTaskId] } }))
+      .then(() => {
+        setSelectedStatus({ ...selectedStatus, [selectedTaskId]: null });
+        setSelectedTaskId(null);        
+      })
+      .then(() => setForceRender(prev => !prev));      
+    }
+  };  
 
   const handleDeleteTask = (taskId) => {
+    console.log(taskId);
     dispatch(deleteTask(taskId));
   };
 
@@ -64,15 +70,15 @@ const TaskList = () => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
             {currentTasks.map((task) => (
-            <tr key={task.id}>
+            <tr key={task._id}>
                 <td className="px-6 py-4 whitespace-nowrap">{task.title}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{task.description}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
 
                 {/* <div className="flex items-center space-x-2"> */}
                   <select
-                    value={task.status}
-                    onChange={(e) => handleStatusChange(e, task.id)}
+                    value={selectedStatus[task._id] || task.status}
+                    onChange={(e) => handleStatusChange(e, task._id)}
                     className="p-1 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                   >
                     <option value="">To Do</option>
@@ -82,17 +88,17 @@ const TaskList = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                   <button
-                    onClick={() => handleSaveStatus(task.id)}
-                    disabled={!selectedStatus}
+                    onClick={handleSaveStatus}
+                    disabled={!selectedStatus[task._id]}
                     className={`${
-                      !selectedStatus ? 'opacity-50 cursor-not-allowed' : ''
+                      !selectedStatus[task._id] ? 'opacity-50 cursor-not-allowed' : ''
                     } inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                   >
                     Save
                   </button>
 
                 <button 
-                  onClick={() => handleDeleteTask(task.id)} 
+                  onClick={() => handleDeleteTask(task._id)} 
                   className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                     Delete
                 </button>
