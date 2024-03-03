@@ -4,7 +4,6 @@ import StoreProvider from "./StoreProvider";
 import Image from "next/image";
 import TaskForm from "@/components/TaskForm";
 import TaskList from "@/components/TaskList";
-import FilterDropDown from "@/components/FilterDropDown";
 
 export default function Home() {
 
