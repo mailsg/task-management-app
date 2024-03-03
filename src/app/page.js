@@ -4,7 +4,6 @@ import StoreProvider from "./StoreProvider";
 import Image from "next/image";
 import TaskForm from "@/components/TaskForm";
 import TaskList from "@/components/TaskList";
-import FilterDropDown from "@/components/FilterDropDown";
 
 export default function Home() {
 
@@ -47,7 +46,7 @@ export default function Home() {
             <div className="flex flex-col left-10 space-y-4">
 
             {showTaskForm ? (
-              <TaskForm addTask={addTask}/>
+              <TaskForm />
             ) : (
               <>
                 <div className="h-96 overflow-auto">
