@@ -47,7 +47,7 @@ export default function Home() {
             <div className="flex flex-col left-10 space-y-4">
 
             {showTaskForm ? (
-              <TaskForm addTask={addTask}/>
+              <TaskForm />
             ) : (
               <>
                 <div className="h-96 overflow-auto">

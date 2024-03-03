@@ -1,14 +1,18 @@
 "use client";
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addTask } from '@/redux/tasks/slice/tasksSlice';
 
-const TaskForm = ({ addTask }) => {
+const TaskForm = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+
+    const dispatch  = useDispatch();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!title.trim() || !description.trim()) return;
-        addTask({ title, description });
+        dispatch(addTask({ title, description }));
         setTitle('');
         setDescription('');
     };
