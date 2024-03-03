@@ -25,7 +25,7 @@
 # 📖 Task Manager App <a name="about-project"></a>
 
 
-**Task Manager App** is a web app that demonstrates a Task Management App.
+**Task Manager App** is a web app that demonstrates a Task Manager.
 
 ## 🛠 Built With <a name="built-with"></a>
 
@@ -189,6 +189,6 @@ I would like to thank everyone for giving this opportunity to me to showcase my 
 
 ## 📝 License <a name="license"></a>
 
-This project is [MIT](./LICENSE) licensed.
+This project is [MIT](./MIT.md) licensed.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
