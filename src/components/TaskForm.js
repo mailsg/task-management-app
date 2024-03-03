@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTask } from '@/redux/tasks/slice/tasksSlice';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TaskForm = () => {
     const [title, setTitle] = useState('');
@@ -13,12 +15,14 @@ const TaskForm = () => {
         e.preventDefault();
         if (!title.trim() || !description.trim()) return;
         dispatch(addTask({ title, description }));
+        toast.success('Task added successfully');
         setTitle('');
         setDescription('');
     };
 
     return (
         <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-transparent rounded-lg shadow-md p-6 -mt-15">
+            <ToastContainer position="top-center" />
             <div className="mb-2">
                 <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title:</label>
                 <input
@@ -28,7 +32,8 @@ const TaskForm = () => {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-                    maxLength={12}
+                    maxLength={18}
+                    required
                 />
             </div>
 
@@ -42,6 +47,7 @@ const TaskForm = () => {
                     className="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                     rows="3"
                     maxLength={64}
+                    required
                 ></textarea>
             </div>
 
