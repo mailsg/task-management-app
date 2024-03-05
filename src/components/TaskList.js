@@ -50,7 +50,7 @@ const TaskList = () => {
   const handleFilterChange = (status) => {
 
     setSelectedStatus(status);
-    
+
     if (status === 'All'){
 
       setFilteredTasks(tasks);
@@ -142,7 +142,7 @@ const TaskList = () => {
         </nav>
       )}
     </div>
-  );
+  );  
 };
 
 export default TaskList;
