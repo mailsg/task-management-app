@@ -14,7 +14,7 @@ const TaskForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!title.trim() || !description.trim()) return;
-        dispatch(addTask({ title, description }));
+        dispatch(addTask({ title, description, status: 'To Do' }));
         toast.success('Task added successfully');
         setTitle('');
         setDescription('');

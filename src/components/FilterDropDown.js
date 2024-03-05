@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 
 const FilterDropDown = ({ statuses, onFilterChange }) => {
+
+    const [selected, setSelected] = useState(statuses[0]);
+
     const handleFilterChange = (e) => {
+        setSelected(e.target.value);
         onFilterChange(e.target.value);
     }
     return(
             <select onChange={handleFilterChange}>
-                <option value=''>All</option>
                 {statuses.map((status) => (
                     <option key={status} value={status}>{status}</option>
                 ))}
