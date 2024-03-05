@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 const FilterDropDown = ({ statuses, onFilterChange }) => {
 
-    console.log(statuses[0]);
     const [selected, setSelected] = useState(statuses[0]);
 
     const handleFilterChange = (e) => {
