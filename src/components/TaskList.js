@@ -48,15 +48,18 @@ const TaskList = () => {
   };
 
   const handleFilterChange = (status) => {
-    console.log('Selected status:', status);
+
     setSelectedStatus(status);
+    
     if (status === 'All'){
-      console.log('All tasks:', tasks);
+
       setFilteredTasks(tasks);
+
     } else {
-    const filtered = status ? tasks.filter((task) => task.status === status) : tasks;
-    console.log('Filtered tasks:', filtered);
-    setFilteredTasks(filtered);
+    
+      const filtered = status ? tasks.filter((task) => task.status === status) : tasks;    
+      setFilteredTasks(filtered);
+
     }
     setCurrentPage(1);
   };
