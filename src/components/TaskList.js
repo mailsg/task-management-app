@@ -49,14 +49,18 @@ const TaskList = () => {
 
   const handleFilterChange = (status) => {
     setSelectedStatus(status);
+    if (status === 'All'){
+      setFilteredTasks(tasks);
+    } else {
     const filtered = status ? tasks.filter((task) => task.status === status) : tasks;
     setFilteredTasks(filtered);
+    }
     setCurrentPage(1);
   };
 
   return (
     <div className="max-w-4xl mx-auto px-4">
-      <FilterDropDown onFilterChange={handleFilterChange} statuses={["To Do", "In Progress", "Done"]} />
+      <FilterDropDown onFilterChange={handleFilterChange} statuses={["All", "To Do", "In Progress", "Done"]} />
       <div className="overflow-x-auto mt-4">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
