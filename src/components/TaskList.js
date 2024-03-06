@@ -8,17 +8,17 @@ const TaskList = () => {
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks.tasks);
   const isLoading = useSelector((state) => state.tasks.isLoading);
-
-  // For Pagination
+  
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [filteredTasks, setFilteredTasks] = useState([]);
+
   const tasksPerPage = 4;
   const indexOfLastTask = currentPage * tasksPerPage;
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
   const currentTasks = tasks.slice(indexOfFirstTask, indexOfLastTask);
-  const totalPages = Math.ceil(tasks.length / tasksPerPage);
+  const totalPages = Math.ceil(filteredTasks.length / tasksPerPage);
 
-  const [selectedStatus, setSelectedStatus] = useState("");
-  const [filteredTasks, setFilteredTasks] = useState([]);
 
   useEffect(() => {
     dispatch(fetchTasks());
