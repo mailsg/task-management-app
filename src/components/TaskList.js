@@ -67,7 +67,7 @@ const TaskList = () => {
   return (
     <div className="max-w-4xl mx-auto px-4">
       <FilterDropDown onFilterChange={handleFilterChange} statuses={["All", "To Do", "In Progress", "Done"]} />
-      <div className="overflow-x-auto mt-4">
+      <div className="mt-4">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
@@ -89,7 +89,10 @@ const TaskList = () => {
             {filteredTasks.slice(indexOfFirstTask, indexOfLastTask).map((task) => (
               <tr key={task._id}>
                 <td className="px-6 py-4 whitespace-nowrap">{task.title}</td>
-                <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap">{task.description}</td>
+                <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap cursor-pointer">
+                  {task.description.length > 15 ? 
+                    `${task.description.substring(0, 15)} >>>` : task.description}
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <select
                     value={selectedStatus[task._id] || task.status}
@@ -123,16 +126,14 @@ const TaskList = () => {
           </tbody>
         </table>
       </div>
-      {filteredTasks.length > tasksPerPage && (
+      {totalPages > 0 && (
         <nav className="flex justify-center mt-4">
           <ul className="flex">
             {Array.from({ length: totalPages }, (_, i) => (
               <li key={i} className="page-item">
                 <button
                   onClick={() => setCurrentPage(i + 1)}
-                  className={`${
-                    currentPage === i + 1 ? "bg-blue-500" : ""
-                  } text-black hover:bg-blue-400 px-4 py-2 border rounded-full mr-2`}
+                  className={`${currentPage === i + 1 ? "bg-blue-500" : ""} text-black hover:bg-blue-400 px-4 py-2 border rounded-full mr-2`}
                 >
                   {i + 1}
                 </button>
@@ -141,6 +142,7 @@ const TaskList = () => {
           </ul>
         </nav>
       )}
+
     </div>
   );  
 };

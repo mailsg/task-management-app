@@ -13,7 +13,7 @@ export default function Home() {
   };
 
   return (
-<StoreProvider>
+    <StoreProvider>
       <main className="min-h-screen flex flex-col justify-between p-4 lg:p-24">
         <div className="max-w-5xl mx-auto w-full">
           <p className="mb-8 text-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 lg:text-left lg:pt-0 lg:border-none lg:bg-none">
@@ -28,7 +28,7 @@ export default function Home() {
               {showTaskForm ? 'Show task list' : 'Add a new task'}
             </button>
           </div>
-        </div>
+        </div> 
         <div className="grid text-center mt-8 lg:max-w-5xl lg:grid-cols-4 ml-1 lg:ml-20">
           <a
             href="https://github.com/mailsg"
