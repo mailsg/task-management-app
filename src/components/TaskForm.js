@@ -14,7 +14,7 @@ const TaskForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!title.trim() || !description.trim()) return;
-        dispatch(addTask({ title, description, status: 'To Do' }));
+        dispatch(addTask({ title, description, status: 'To Do', Date: new Date() }));
         toast.success('Task added successfully');
         setTitle('');
         setDescription('');
@@ -46,7 +46,7 @@ const TaskForm = () => {
                     onChange={(e) => setDescription(e.target.value)}
                     className="mt-1 p-2 w-full border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                     rows="3"
-                    maxLength={64}
+                    maxLength={128}
                     required
                 ></textarea>
             </div>
