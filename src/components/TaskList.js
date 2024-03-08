@@ -2,6 +2,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchTasks, updateTask, deleteTask } from "@/redux/tasks/slice/tasksSlice";
+import Modal from "./Modal";
 import FilterDropDown from "./FilterDropDown";
 
 const TaskList = () => {
@@ -12,6 +13,17 @@ const TaskList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedStatus, setSelectedStatus] = useState("");
   const [filteredTasks, setFilteredTasks] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTaskDesc, setSelectedTaskDesc] = useState("");
+
+  const openModal = (description) => {
+    setSelectedTaskDesc(description);
+    setIsModalOpen(true);
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  }
 
   const tasksPerPage = 4;
   const indexOfLastTask = currentPage * tasksPerPage;
@@ -42,6 +54,30 @@ const TaskList = () => {
       dispatch(fetchTasks());
     });
   };
+
+//   const handleSaveStatus = (taskId) => {
+//     const taskToUpdate = filteredTasks.find((task) => task._id === taskId);
+//     if (!taskToUpdate || !selectedStatus[taskId]) return;
+
+//     // Dispatch updateTask action
+//     dispatch(updateTask({ taskId, updatedTask: { status: selectedStatus[taskId] } }))
+//         .then(() => {
+//             // Reset selected status
+//             setSelectedStatus((prevStatus) => {
+//                 const updatedStatus = { ...prevStatus };
+//                 delete updatedStatus[taskId]; // Remove taskId key
+//                 return updatedStatus;
+//             });
+
+//             // Dispatch fetchTasks action if needed
+//             dispatch(fetchTasks());
+//         })
+//         .catch((error) => {
+//             console.error("Error updating task:", error);
+//             // Handle error if necessary
+//         });
+// };
+
 
   const handleDeleteTask = (taskId) => {
     dispatch(deleteTask({ taskId }));
@@ -89,8 +125,8 @@ const TaskList = () => {
             {filteredTasks.slice(indexOfFirstTask, indexOfLastTask).map((task) => (
               <tr key={task._id}>
                 <td className="px-6 py-4 whitespace-nowrap">{task.title}</td>
-                <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap cursor-pointer">
-                  {task.description.length > 15 ? 
+                <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap cursor-pointer" onClick={() => openModal(task.description)}>
+                  {task.description && task.description.length > 15 ? 
                     `${task.description.substring(0, 15)} >>>` : task.description}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -142,7 +178,7 @@ const TaskList = () => {
           </ul>
         </nav>
       )}
-
+      {isModalOpen && <Modal taskDesc={selectedTaskDesc} onClose={closeModal} />}
     </div>
   );  
 };
