@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { fetchTasks, updateTask, deleteTask } from "@/redux/tasks/slice/tasksSlice";
 import Modal from "./Modal";
 import FilterDropDown from "./FilterDropDown";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TaskList = () => {
   const dispatch = useDispatch();
@@ -51,6 +53,7 @@ const TaskList = () => {
     if (!taskToUpdate || !selectedStatus[taskId]) return;
     dispatch(updateTask({ taskId, updatedTask: { status: selectedStatus[taskId] } })).then(() => {
       setSelectedStatus((prevStatus) => ({ ...prevStatus, [taskId]: null }));
+      toast.success('Task updated successfully');
       dispatch(fetchTasks());
     });
   };
@@ -81,6 +84,7 @@ const TaskList = () => {
 
   const handleDeleteTask = (taskId) => {
     dispatch(deleteTask({ taskId }));
+    toast.success('Task deleted successfully');
   };
 
   const handleFilterChange = (status) => {
@@ -102,6 +106,7 @@ const TaskList = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4">
+      <ToastContainer position="top-center" />
       <FilterDropDown onFilterChange={handleFilterChange} statuses={["All", "To Do", "In Progress", "Done"]} />
       <div className="mt-4">
         <table className="min-w-full divide-y divide-gray-200">
