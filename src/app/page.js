@@ -29,45 +29,50 @@ export default function Home() {
             </button>
           </div>
         </div> 
-        <div className="grid text-center mt-8 lg:max-w-5xl lg:grid-cols-4 ml-1 lg:ml-20">
-          <a
-            href="https://github.com/mailsg"
-            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className="mb-3 text-2xl text-center font-semibold">GitHub</h2>
-            <p className="max-w-[30ch] text-center ml-5 text-sm opacity-50">Find my projects on GitHub.</p>
-          </a>
-          <a
-            href="https://my-portfolio-3fbn.onrender.com/"
-            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className="mb-3 text-2xl text-center font-semibold">Portfolio</h2>
-            <p className="max-w-[30ch] text-center ml-5 text-sm opacity-50">Checkout my portfolio!</p>
-          </a>
-          <a
-            href="https://www.linkedin.com/in/sandeep0912/"
-            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className="mb-3 text-2xl text-center font-semibold">LinkedIn</h2>
-            <p className="max-w-[30ch] text-center ml-5 text-sm opacity-50">Connect on LinkedIn.</p>
-          </a>
-          <a
-            href="https://wellfound.com/u/sandeep0912"
-            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className="mb-3 text-2xl text-center font-semibold">Wellfound</h2>
-            <p className="max-w-[30ch] text-center ml-5 text-sm opacity-50">My Wellfound profile.</p>
-          </a>
+        
+        <div className="mt-8 lg:max-w-5xl ml-1 lg:ml-20 relative">
+          <footer className="" style= {{position: "absolute", bottom: "0", width: "100%", top: "6rem"}}>
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+              <a
+                href="https://github.com/mailsg"
+                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h2 className="mb-3 text-2xl font-semibold text-center">GitHub</h2>
+                <p className="text-sm text-center opacity-50">Find my projects on GitHub.</p>
+              </a>
+              <a
+                href="https://my-portfolio-3fbn.onrender.com/"
+                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h2 className="mb-3 text-2xl font-semibold text-center">Portfolio</h2>
+                <p className="text-sm text-center opacity-50">Checkout my portfolio!</p>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/sandeep0912/"
+                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h2 className="mb-3 text-2xl font-semibold text-center">LinkedIn</h2>
+                <p className="text-sm text-center opacity-50">Connect on LinkedIn.</p>
+              </a>
+              <a
+                href="https://wellfound.com/u/sandeep0912"
+                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h2 className="mb-3 text-2xl font-semibold text-center">Wellfound</h2>
+                <p className="text-sm text-center opacity-50">My Wellfound profile.</p>
+              </a>
+            </div>
+            </footer>
         </div>
       </main>
-    </StoreProvider>
+  </StoreProvider>
   );
 };
