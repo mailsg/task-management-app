@@ -6,6 +6,7 @@ import Modal from "./Modal";
 import FilterDropDown from "./FilterDropDown";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SpinningLoader from "./SpinningLoader";
 
 const TaskList = () => {
   const dispatch = useDispatch();
@@ -58,30 +59,6 @@ const TaskList = () => {
     });
   };
 
-//   const handleSaveStatus = (taskId) => {
-//     const taskToUpdate = filteredTasks.find((task) => task._id === taskId);
-//     if (!taskToUpdate || !selectedStatus[taskId]) return;
-
-//     // Dispatch updateTask action
-//     dispatch(updateTask({ taskId, updatedTask: { status: selectedStatus[taskId] } }))
-//         .then(() => {
-//             // Reset selected status
-//             setSelectedStatus((prevStatus) => {
-//                 const updatedStatus = { ...prevStatus };
-//                 delete updatedStatus[taskId]; // Remove taskId key
-//                 return updatedStatus;
-//             });
-
-//             // Dispatch fetchTasks action if needed
-//             dispatch(fetchTasks());
-//         })
-//         .catch((error) => {
-//             console.error("Error updating task:", error);
-//             // Handle error if necessary
-//         });
-// };
-
-
   const handleDeleteTask = (taskId) => {
     dispatch(deleteTask({ taskId }));
     toast.success('Task deleted successfully');
@@ -107,9 +84,13 @@ const TaskList = () => {
   return (
     <div className="max-w-4xl mx-auto px-4">
       <ToastContainer position="top-center" />
-      <FilterDropDown onFilterChange={handleFilterChange} statuses={["All", "To Do", "In Progress", "Done"]} />
+      {isLoading ? 
+        (
+          <SpinningLoader />
+        ) : (
       <div className="mt-4">
-        <table className="min-w-full divide-y divide-gray-200">
+      <FilterDropDown onFilterChange={handleFilterChange} statuses={["All", "To Do", "In Progress", "Done"]} />
+        <table className="min-w-full divide-y divide-gray-200" style={{ marginTop: "1rem" }}>
           <thead className="bg-gray-50">
             <tr>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -167,6 +148,7 @@ const TaskList = () => {
           </tbody>
         </table>
       </div>
+        )}
       {totalPages > 0 && (
         <nav className="flex justify-center mt-4">
           <ul className="flex">
