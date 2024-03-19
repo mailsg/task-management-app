@@ -110,7 +110,13 @@ const TaskList = () => {
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredTasks.slice(indexOfFirstTask, indexOfLastTask).map((task) => (
               <tr key={task._id}>
-                <td className="px-6 py-4 whitespace-nowrap">{task.title}</td>
+                <td className="px-6 py-4 whitespace-nowrap sm:hidden cursor-pointer" style={{marginTop: "0.5rem"}}
+                  onClick={() => openModal(task.description)}>
+                  {task.title && task.title.length > 5 ? 
+                  `${task.title.substring(0, 10)}...` : task.title}</td>
+                <td className="px-6 py-4 whitespace-nowrap hidden sm:block" style={{marginTop: "0.5rem"}}>
+                  {task.title}
+                </td>
                 <td className="hidden lg:table-cell px-6 py-4 whitespace-nowrap cursor-pointer" onClick={() => openModal(task.description)}>
                   {task.description && task.description.length > 15 ? 
                     `${task.description.substring(0, 15)} >>>` : task.description}
